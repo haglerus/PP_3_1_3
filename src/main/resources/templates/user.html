@@ -1,11 +1,60 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title th:text="${'Страница пользователя ' + user.getFullName()}"></title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
+<header sec:authorize="isAuthenticated()" th:fragment="header" style="display: flex; justify-content: flex-end ">
+    <nav>
+        <h3 style="margin-right: 50px">
+            <a href="/logout">Logout</a>
+        </h3>
+    </nav>
+</header>
+<div align="center">
+    <h2 th:text="'Пользователь ' + ${user.getFullName()}" th:if="${user != 'null'}"></h2>
+    <form th:method="POST" th:action="(${user == 'null'}) ? '/admin/new' : '/admin/' + ${user.id}">
+        <label for="email">E-mail</label>
+        <input name="email" type="text" id="email" th:value="${user.getEmail()}"/>
+
+        <br>
+
+        <label for="firstName">First name</label>
+        <input name="firstName" type="text" id="firstName" th:value="${user.getFirstName()}"/>
+
+        <br>
+
+        <label for="username">username</label>
+        <input name="username" type="text" id="username" th:value="${user.getUsername()}"/>
+
+        <br>
+
+        <label for="password">Password</label>
+        <input name="password" type="password" id="password" th:value="${user.getPassword()}"/>
+
+        <br>
+
+        <label for="lastName">Last name</label>
+        <input name="lastName" type="text" id="lastName" th:value="${user.getLastName()}"/>
+
+        <br>
+        <label for="roles">Роли:</label>
+
+        <select name="roles" id="roles" multiple="multiple" size="2">
+            <th:block th:each="role : ${roles}">
+                <option th:text="${role.toString()}" th:value="${role.getId()}" th:selected="${user.getRoles().contains(role)}" th:disabled="${!#request.isUserInRole('ROLE_ADMIN')}"/>
+            </th:block>
+        </select>
 
 
+        <br>
+        <div sec:authorize="hasAuthority('ROLE_ADMIN')">
+            <a href="/admin/">Вернуться к списку пользователей</a>
+            <input type="submit"
+                   th:value="${#httpServletRequest.requestURI.endsWith('new')} ? 'Создать пользователя' : 'Изменить данные'">
+        </div>
+    </form>
+</div>
 </body>
 </html>
