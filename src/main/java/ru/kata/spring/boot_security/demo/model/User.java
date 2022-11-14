@@ -140,10 +140,10 @@ public class User implements UserDetails {
         return getId().equals(user.getId());
     }
 
-//    @Override
-//    public int hashCode() {
-//        return getId().hashCode();
-//    }
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 
     @Override
     public String toString() {
