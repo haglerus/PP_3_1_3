@@ -14,23 +14,33 @@
 </header>
 <div style="display: flex; flex-direction: column; align-items: center">
   <table>
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
     <th:block th:each="user : ${users}">
       <tr>
-        <td th:text="${user.getUsername()}"></td>
-        <th th:text="${user.getEmail()}"></th>
         <td th:text="${user.getFirstName()}"></td>
         <td th:text="${user.getLastName()}"></td>
+        <th th:text="${user.getEmail()}"></th>
+        <td th:text="${user.getUsername()}"></td>
         <td>
-          <a th:href="'/admin/' + ${user.id}">Редактировать</a>
+          <a th:href="'/admin/' + ${user.id}">Edit</a>
         </td>
         <td>
-          <a th:href="'/admin/' + ${user.id} + '/delete'">Удалить</a>
+          <a th:href="'/admin/' + ${user.id} + '/delete'">Delete</a>
         </td>
       </tr>
     </th:block>
+    </tbody>
   </table>
   <a th:href="'/admin/new'">
-    <h3>Добавить пользователя</h3>
+    <h3>Create user</h3>
   </a>
 </div>
 </body>

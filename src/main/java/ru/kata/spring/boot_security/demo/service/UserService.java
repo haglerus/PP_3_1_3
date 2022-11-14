@@ -13,7 +13,7 @@ public interface UserService extends UserDetailsService {
     void add(User user);
     User getUser(Long id);
     List<User> listUsers();
-    void update(User user);
+    void update(User user, String password);
     void delete(Long id);
     void addRoles(User user, Long[] rolesIds);
 }

@@ -74,10 +74,9 @@ public class UsersController {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setUsername(username);
-        user.setPassword(password);
         user.dropRoles();
         userService.addRoles(user, rolesIds);
-        userService.update(user);
+        userService.update(user, password);
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.listRoles());
         return "user";
